@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('/posts', PostController::class);
+
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/dashboard', function () {
@@ -25,7 +27,12 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::view('myposts', 'myposts')->name('myposts');
 
-    Route::view('createpost', 'createpost')->name('createpost');
+    Route::controller(App\Http\Controllers\PostController::class)->group(function () {
+        Route::get('/create-post', 'create');
+        Route::post('/create-post', 'store');
+
+        Route::get('/my-post', 'myposts');
+    });
 });
 
 require __DIR__.'/auth.php';

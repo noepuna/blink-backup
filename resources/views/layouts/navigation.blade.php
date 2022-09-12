@@ -15,6 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="url('my-post')" :active="request()->routeIs('my-post')">
+                        {{ __('My Posts') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="url('create-post')" :active="request()->routeIs('create-post')">
+                        {{ __('Create Post') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -34,12 +42,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                    <!-- "Create Post" Dropdown -->
-                    <x-dropdown-link :href="route('createpost')">
-                        {{ __('Create Post') }}
-                    </x-dropdown-link>
-                    
-                    <!-- "My Posts" Dropdown -->
+                    <!-- "My Post" Dropdown -->
                     <x-dropdown-link :href="route('myposts')">
                         {{ __('My Posts') }}
                     </x-dropdown-link>    
@@ -86,10 +89,6 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <!-- "Create Post" Dropdown-->
-                <x-responsive-nav-link :href="route('createpost')">
-                    {{ __('Create Post') }}
-                </x-responsive-nav-link>
             
                 <!-- "My Posts" Dropdown-->
                 <x-responsive-nav-link :href="route('myposts')">
