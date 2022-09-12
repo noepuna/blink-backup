@@ -14,8 +14,16 @@ class Post extends Model
     /**
      * Get the user that owns the post.
      */
-    public function post()
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the users who contributed to the rating.
+     */
+    public function rating()
+    {
+        return $this->hasOne(Rating::class);
     }
 }

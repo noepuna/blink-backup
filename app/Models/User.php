@@ -49,4 +49,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * Get the ratings the user.
+     */
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
