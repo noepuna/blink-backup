@@ -29,4 +29,13 @@ class PostController extends Controller
         ]);
         return redirect('/create-post')->with('message', 'Post created Successfully');
     }
+
+    public function allposts(){
+        return view('posts.allposts');
+    }
+    
+    public function myposts(){
+        $posts = Post::where('user_id', Auth::user()->id)->get();
+        return view('posts.myposts', compact('posts'));
+    }
 }

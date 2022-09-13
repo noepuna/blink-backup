@@ -16,7 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="url('my-post')" :active="request()->routeIs('my-post')">
+                    <x-nav-link :href="url('my-posts')" :active="request()->routeIs('my-posts')">
                         {{ __('My Posts') }}
                     </x-nav-link>
 
@@ -43,9 +43,10 @@
 
                     <x-slot name="content">
                     <!-- "My Post" Dropdown -->
+                    <!--
                     <x-dropdown-link :href="route('myposts')">
                         {{ __('My Posts') }}
-                    </x-dropdown-link>    
+                    </x-dropdown-link>   --> 
                     
                     <!-- Log Out Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
