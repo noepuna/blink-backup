@@ -26,7 +26,7 @@ Route::get('/', function () {
         //all posts (this is available without the need to login)
         Route::get('/posts', 'allposts');
 
-        //here
+        // everything within this middleware route, you must be logged in to access
         Route::group(['middleware' => 'auth'], function(){
             Route::get('/dashboard', function () {
                 return view('dashboard');
@@ -36,10 +36,16 @@ Route::get('/', function () {
             //Route::view('myposts', 'myposts')->name('myposts');
         
     
+            // routes for create view and for create post method (store) 
             Route::get('/create-post', 'create');
             Route::post('/create-post', 'store');
-        
+            
+            // route for user's posts
             Route::get('/my-posts', 'myposts')->name('myposts');
+
+            // routes for edit view
+            Route::get('/edit-post/{post_id}', 'edit');
+            Route::put('/update-post/{post_id}', 'update');
             
         });
     });

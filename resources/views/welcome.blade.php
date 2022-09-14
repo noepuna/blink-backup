@@ -32,23 +32,26 @@
                 </form>
             
             
-            @if (Route::has('login'))
-                <div>
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Your Profile</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Log in</a>
+                @if (Route::has('login'))
+                    <div>
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Your Profile</a>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Log in</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-        </nav>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Register</a>
+                            @endif
+                        @endauth
+                    </div>
+                @endif
+            </nav>
+
+            <h1>Welcome to Blink ;)</h1>
+            <a href="/posts"><h3>Shop Now!</h3></a>
 
                 
-            </div>
+            
         </div>
     </body>
 </html>
