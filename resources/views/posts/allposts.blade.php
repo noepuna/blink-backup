@@ -53,7 +53,7 @@
                             <th>Title</th>
                             <th>Price</th>
                             <th>Rating</th>
-                            <th>User</th>
+                            <th>Image</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +62,7 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->price }}</td>
                             <td>{{ $post->avg_rating }}</td>
-                            <td>username</td>
+                            <td><img src="{{ $post->img_src }}" ></td>
                         </tr>
                         @empty
                         <tr>

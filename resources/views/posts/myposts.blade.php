@@ -28,11 +28,14 @@
                             <td>{{ $post->price }}</td>
                             <td>{{ $post->avg_rating }}</td>
                             <td>
-                                <a href="{{ url('/edit-post/'.$post->id) }}" class="btn btn-primary">Edit</a>
+                                <button><a href="{{ url('/edit-post/'.$post->id) }}" class="btn btn-primary">Edit</a></button>
                             </td>
                             <td>
-                                <a href="/" class="btn btn-danger">Delete</a>
-                            </td>
+                                <form action = "{{ url('/delete-post/'.$post->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
                         </tr>
                         @empty
                         <tr>

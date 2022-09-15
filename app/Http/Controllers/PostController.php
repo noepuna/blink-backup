@@ -81,4 +81,20 @@ class PostController extends Controller
 
         return redirect('/my-posts')->with('message', 'Post Updated Successfully');
     }
+
+    public function destroy($post_id){
+        
+        $post = Post::find($post_id);
+        
+        if ($post->user_id !== Auth::user()->id){
+            return redirect('/');
+        }
+        else {
+            $post = Post::find($post_id)->delete();
+            return redirect('/my-posts')->with('message', 'Post Deleted Successfully');
+        }
+        
+
+
+    }
 }

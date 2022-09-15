@@ -46,6 +46,8 @@ Route::get('/', function () {
             // routes for edit view
             Route::get('/edit-post/{post_id}', 'edit');
             Route::put('/update-post/{post_id}', 'update');
+
+            Route::delete('/delete-post/{post_id}', 'destroy');
             
         });
     });
