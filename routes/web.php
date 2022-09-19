@@ -26,6 +26,12 @@ Route::get('/', function () {
         //all posts (this is available without the need to login)
         Route::get('/posts', 'allposts');
 
+        Route::get('/search-posts', 'dosearch'); 
+
+        Route::get('/search/{search}', function () {
+            return view('posts.search');
+        })->name('search');
+
         // everything within this middleware route, you must be logged in to access
         Route::group(['middleware' => 'auth'], function(){
             Route::get('/dashboard', function () {
@@ -48,6 +54,8 @@ Route::get('/', function () {
             Route::put('/update-post/{post_id}', 'update');
 
             Route::delete('/delete-post/{post_id}', 'destroy');
+
+            
             
         });
     });

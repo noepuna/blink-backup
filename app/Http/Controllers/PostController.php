@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostFormRequest;
 use Auth;
@@ -33,9 +34,18 @@ class PostController extends Controller
         return redirect('/create-post')->with('message', 'Post created Successfully');
     }
 
+    
+    public function dosearch(Request $request){
+        
+        $search = $request->get('search');
+        $posts = Post::where('title', 'like', '%'.$search.'%')->paginate(30);
+        //return redirect('search/'.$search)->with( ['search' => $search,'searchposts' => $posts] );
+        return view('posts.search', compact('search', 'posts'));
+    }
+    
     // return all posts to allposts view blade
     public function allposts(){
-        $posts = Post::all();
+        $posts = Post::paginate(5);
 
         $posts->map(function ($post) {
             $post['username'] = 'hi';
@@ -49,6 +59,8 @@ class PostController extends Controller
         }
         return view('posts.allposts', compact('posts'));
     }
+
+
     // return user's post to mypost view blade
     public function myposts(){
         $posts = Post::where('user_id', Auth::user()->id)->get();

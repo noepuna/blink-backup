@@ -22,6 +22,7 @@
         </style>
     </head>
     
+    
     <body class="antialiased">
         <div >
         <nav class="navbar navbar-light bg-light ">
@@ -48,11 +49,39 @@
                     </div>
                 @endif
             </nav>
+            
 
-            <h1>Welcome to Blink ;)</h1>
-            <a href="/posts"><h3>Shop Now!</h3></a>
-
-                
+            <h1>
+                {{ $search }}
+            </h1>  
+            
+            <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($posts as $post)
+                        <tr>
+                            <td>{{ $post->title }}</td>
+                            <td>{{ $post->price }}</td>
+                            <td>{{ $post->avg_rating }}</td>
+                            <td><img src="{{ $post->img_src }}" ></td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6">No Record Found.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>   
+                <div class="d-flex justify-content-center">
+                    {!! $posts->links() !!}
+                </div>
             
         </div>
     </body>
