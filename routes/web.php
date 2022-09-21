@@ -28,9 +28,7 @@ Route::get('/', function () {
 
         Route::get('/search-posts', 'dosearch'); 
 
-        Route::get('/search/{search}', function () {
-            return view('posts.search');
-        })->name('search');
+        Route::get('/post/{postid}', 'getpost');
 
         // everything within this middleware route, you must be logged in to access
         Route::group(['middleware' => 'auth'], function(){
@@ -55,7 +53,7 @@ Route::get('/', function () {
 
             Route::delete('/delete-post/{post_id}', 'destroy');
 
-            
+            Route::post('/ratepost/{post_id}/{rate_input}', 'rate');
             
         });
     });

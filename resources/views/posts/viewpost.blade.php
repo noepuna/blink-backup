@@ -22,10 +22,9 @@
         </style>
     </head>
     
-    
     <body class="antialiased">
         <div >
-        <nav class="navbar navbar-light bg-light ">
+            <nav class="navbar navbar-light bg-light ">
                 <h1 class="navbar-brand"><a href='/'>Blink ;)</a></h1>
                 <form form action="/search-posts" class="form-inline" method="GET">
                     @csrf
@@ -49,40 +48,21 @@
                     </div>
                 @endif
             </nav>
-            
+           
+            <h1>{{ $post->title }}</h1>
+            <p>{{ $post->description }}</p>
+            <p>{{ $post->avg_rating }}</p>
+            <div>
+                <x-success-status class="mb-4" :status="session('message')" />
 
-            <h1>
-                {{ $search }}
-            </h1>  
-            
-            <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Image</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($posts as $post)
-                        <tr>
-                            <td><a href="{{ url('/post/'.$post->id) }}" >{{ $post->title }}</a></td>
-                            <td>{{ $post->price }}</td>
-                            <td>{{ $post->avg_rating }}</td>
-                            <td><img src="{{ $post->img_src }}" ></td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6">No Record Found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>   
-                <div class="d-flex justify-content-center">
-                    {!! $posts->links() !!}
-                </div>
-            
+                <form action="/">
+                <label for="rate_input">Rate this piece from 1 to 5!</label>
+                <input type="range" id="rate_input" name="rate_input"
+                        min="0" max="5">
+                <button>Submit</button>
+                </form>
+            </div>
+
         </div>
     </body>
 </html>

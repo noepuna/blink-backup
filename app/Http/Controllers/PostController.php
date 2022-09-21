@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Rating;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostFormRequest;
@@ -35,6 +36,7 @@ class PostController extends Controller
     }
 
     
+    // get user input, do search query, pass the search and queried posts to posts.search view
     public function dosearch(Request $request){
         
         $search = $request->get('search');
@@ -65,6 +67,11 @@ class PostController extends Controller
     public function myposts(){
         $posts = Post::where('user_id', Auth::user()->id)->get();
         return view('posts.myposts', compact('posts'));
+    }
+
+    public function getpost($post_id){
+        $post = Post::find($post_id);
+        return view('posts.viewpost', compact('post'));
     }
 
     // return edit view blade. Recieve specific post from user button click, pass post to view blade
@@ -108,5 +115,23 @@ class PostController extends Controller
         
 
 
+    }
+
+    public function rate($post_id, $rate_input){
+        $user_id = Auth::user()->id;
+
+        $r = Rating::where('user_id', '=', $user_id);
+        if ($r === null) {
+            $rating = Rating::create([
+                'post_id'=>$post_id,
+                'user_id'=>$user_id,
+                'rated'=>$rate_input
+            ]);
+
+            $post = Post::find($post_id);
+            $post->amount_rated++;
+
+        }
+        
     }
 }

@@ -24,7 +24,7 @@
                     <tbody>
                         @forelse ($posts as $post)
                         <tr>
-                            <td>{{ $post->title }}</td>
+                            <td><a href="{{ url('/post/'.$post->id) }}" >{{ $post->title }}</a></td>
                             <td>{{ $post->price }}</td>
                             <td>{{ $post->avg_rating }}</td>
                             <td>
