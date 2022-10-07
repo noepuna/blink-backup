@@ -22,9 +22,10 @@
         </style>
     </head>
     
+    
     <body class="antialiased">
         <div >
-            <nav class="navbar navbar-light bg-light ">
+        <nav class="navbar navbar-light bg-light ">
                 <h1 class="navbar-brand"><a href='/'>Blink ;)</a></h1>
                 <form form action="/search-posts" class="form-inline" method="GET">
                     @csrf
@@ -48,23 +49,21 @@
                     </div>
                 @endif
             </nav>
-           
-            <h1>{{ $post->title }}</h1>
-            <p>{{ $post->description }}</p>
-            <p>{{ $post->avg_rating }}</p>
-            <div>
-                <x-success-status class="mb-4" :status="session('message')" />
+            
 
-                <form action="{{ url('rate-post/'.$post->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <label for="rate_input">Rate this piece from 1 to 5!</label>
-                    <input type="range" id="rate_input" name="rate_input"
-                            min="0" max="5">
-                    <button>Submit</button>
-                </form>
-            </div>
-
+            <h1>
+                {{ $rate_input }}
+            </h1> 
+            <h1>
+                AVG {{ $avg }}
+            </h1>   
+            <h1>
+                Total {{ $total }}
+            </h1>  
+            
+            
+            
+            
         </div>
     </body>
 </html>

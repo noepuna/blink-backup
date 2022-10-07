@@ -30,6 +30,7 @@ class PostController extends Controller
             'price'=>$data['price'],
             'img_src'=>$data['img_src'],
             'user_id'=>Auth::user()->id,
+            'amount_rated' => 0,
             'avg_rating'=>0
         ]);
         return redirect('/create-post')->with('message', 'Post created Successfully');
@@ -117,21 +118,5 @@ class PostController extends Controller
 
     }
 
-    public function rate($post_id, $rate_input){
-        $user_id = Auth::user()->id;
-
-        $r = Rating::where('user_id', '=', $user_id);
-        if ($r === null) {
-            $rating = Rating::create([
-                'post_id'=>$post_id,
-                'user_id'=>$user_id,
-                'rated'=>$rate_input
-            ]);
-
-            $post = Post::find($post_id);
-            $post->amount_rated++;
-
-        }
-        
-    }
+    
 }

@@ -9,7 +9,7 @@ class Rating extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['rated'];
+    protected $fillable = ['post_id', 'user_id', 'rated'];
     
     /**
      * Get the post the rating belongs to.

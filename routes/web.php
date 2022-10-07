@@ -28,7 +28,7 @@ Route::get('/', function () {
 
         Route::get('/search-posts', 'dosearch'); 
 
-        Route::get('/post/{postid}', 'getpost');
+        Route::get('/post/{postid}', 'getpost')->name('specificpost');
 
         // everything within this middleware route, you must be logged in to access
         Route::group(['middleware' => 'auth'], function(){
@@ -53,7 +53,11 @@ Route::get('/', function () {
 
             Route::delete('/delete-post/{post_id}', 'destroy');
 
-            Route::post('/ratepost/{post_id}/{rate_input}', 'rate');
+            
+            Route::controller(App\Http\Controllers\RatingController::class)->group(function () {
+                //Route::post('/ratepost/{post_id}/{rate_input}', 'rate');
+                Route::put('/rate-post/{post_id}', 'rate2');
+            });
             
         });
     });
