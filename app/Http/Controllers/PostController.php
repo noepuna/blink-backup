@@ -31,7 +31,8 @@ class PostController extends Controller
             'img_src'=>$data['img_src'],
             'user_id'=>Auth::user()->id,
             'amount_rated' => 0,
-            'avg_rating'=>0
+            'avg_rating'=>0,
+            'featured'=>0
         ]);
         return redirect('/create-post')->with('message', 'Post created Successfully');
     }
@@ -50,17 +51,31 @@ class PostController extends Controller
     public function allposts(){
         $posts = Post::paginate(5);
 
-        $posts->map(function ($post) {
-            $post['username'] = 'hi';
-            return $post;
-        });
-
-        foreach ($posts as &$post){
-            //$user = User::where('id', $post->user_id)->get();
-            
-            //$post['username'] = $user->username;
-        }
+        
         return view('posts.allposts', compact('posts'));
+    }
+
+    public function getallposts(){
+        if(Auth::user()->role == 0){
+            return redirect('/');
+        }else {
+        
+            $posts = Post::all();            
+            return view('posts.editfeatured', compact('posts'));
+        }
+    }
+
+    public function newfeatures(Request $request){
+        $checkboxes = $request->get('checkfeature', []);
+        foreach($checkboxes as $checkbox){
+            if($checkbox){
+                Post::where('id', $checkbox)->update(['featured' => 1]);
+            }else {
+                Post::where('id', $checkbox)->update(['featured' => 0]);
+            }
+        }
+        return redirect('/dashboard');
+        
     }
 
 

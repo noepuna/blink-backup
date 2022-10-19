@@ -23,6 +23,16 @@
                     <x-nav-link :href="url('create-post')" :active="request()->routeIs('create-post')">
                         {{ __('Create Post') }}
                     </x-nav-link>
+
+                    @if ( Auth::user()->role == 1)
+                        <x-nav-link :href="url('edit-featured')" :active="request()->routeIs('edit-featured')">
+                            {{ __(' Edit Featured') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="url('create-post')" :active="request()->routeIs('create-post')">
+                            {{ __(' Reports') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -31,7 +41,12 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <div>{{ Auth::user()->username }}</div>
+                            <div>
+                                {{ Auth::user()->username }}
+                                @if ( Auth::user()->role == 1)
+                                    (Admin)
+                                @endif
+                            </div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -94,6 +109,10 @@
                 <!-- "My Posts" Dropdown-->
                 <x-responsive-nav-link :href="route('myposts')">
                     {{ __('My Posts') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('myposts')">
+                    {{ __('Create Post') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

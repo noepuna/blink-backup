@@ -58,6 +58,9 @@ Route::get('/', function () {
                 //Route::post('/ratepost/{post_id}/{rate_input}', 'rate');
                 Route::put('/rate-post/{post_id}', 'rate2');
             });
+
+            Route::get('/edit-featured', 'getallposts')->name('getallposts');
+            Route::put('/new-features', 'newfeatures');
             
         });
     });
