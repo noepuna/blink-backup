@@ -52,7 +52,7 @@
             
 
             <h1>
-                {{ $search }}
+                Searching for "{{ $search }}"
             </h1>  
             
             <table class="table table-bordered">

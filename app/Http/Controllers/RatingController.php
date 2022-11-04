@@ -16,7 +16,7 @@ class RatingController extends Controller
         $user_id = Auth::user()->id;
 
         $r = Rating::where('user_id', '=', $user_id);
-        if ($r === null) {
+        if ($r == null) {
             $rating = Rating::create([
                 'post_id'=>$post_id,
                 'user_id'=>$user_id,

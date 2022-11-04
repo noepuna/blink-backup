@@ -55,6 +55,7 @@ class PostController extends Controller
         return view('posts.allposts', compact('posts'));
     }
 
+    // gets all posts and passes it to the edit featured screen. For ADMINS only.
     public function getallposts(){
         if(Auth::user()->role == 0){
             return redirect('/');
@@ -65,10 +66,12 @@ class PostController extends Controller
         }
     }
 
+    // reassign featured posts
     public function newfeatures(Request $request){
         $checkboxes = $request->get('checkfeature', []);
         foreach($checkboxes as $checkbox){
-            if($checkbox){
+            // ($checkbox == "checked")
+            if($checkbox != null){
                 Post::where('id', $checkbox)->update(['featured' => 1]);
             }else {
                 Post::where('id', $checkbox)->update(['featured' => 0]);
@@ -77,6 +80,7 @@ class PostController extends Controller
         return redirect('/dashboard');
         
     }
+    
 
 
     // return user's post to mypost view blade
@@ -85,6 +89,7 @@ class PostController extends Controller
         return view('posts.myposts', compact('posts'));
     }
 
+    // get a specific post
     public function getpost($post_id){
         $post = Post::find($post_id);
         return view('posts.viewpost', compact('post'));
@@ -125,6 +130,7 @@ class PostController extends Controller
             return redirect('/');
         }
         else {
+            Rating::where('post_id', $post_id)->delete();
             $post = Post::find($post_id)->delete();
             return redirect('/my-posts')->with('message', 'Post Deleted Successfully');
         }

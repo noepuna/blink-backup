@@ -37,7 +37,7 @@ class PostFormRequest extends FormRequest
             ],
             'img_src' => [
                 'required',
-                'max:225'
+                'max:2000'
             ],
         ];
     }
