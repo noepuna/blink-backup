@@ -63,6 +63,11 @@
                             min="0" max="5">
                     <button>Submit</button>
                 </form>
+                <form action="/makeorder/{{$post->id}}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button>Buy</button>
+                </form>
             </div>
 
         </div>

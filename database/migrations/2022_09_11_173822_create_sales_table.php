@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
             $table->unsignedBigInteger('buyer_id');
             $table->foreign('buyer_id')->references('id')->on('users');
             $table->unsignedBigInteger('seller_id');

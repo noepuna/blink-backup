@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Rating;
+use App\Models\Order;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostFormRequest;
@@ -47,9 +48,9 @@ class PostController extends Controller
         return view('posts.search', compact('search', 'posts'));
     }
     
-    // return all posts to allposts view blade
+    // return all posts to allposts view 
     public function allposts(){
-        $posts = Post::paginate(5);
+        $posts = Post::paginate(8);
 
         
         return view('posts.allposts', compact('posts'));
@@ -93,6 +94,20 @@ class PostController extends Controller
     public function getpost($post_id){
         $post = Post::find($post_id);
         return view('posts.viewpost', compact('post'));
+    }
+
+    // make a sale
+    public function makeAnOrder($post_id){
+        $post = Post::find($post_id);
+        $seller = Post::find($post_id)->user;
+        
+        $order = Order::create([
+            'post_id' => $post_id,
+            'seller_id' => $seller->id,
+            'buyer_id' => Auth::user()->id,
+            'price' => $post->price
+        ]);
+        return redirect('/');
     }
 
     // return edit view blade. Recieve specific post from user button click, pass post to view blade

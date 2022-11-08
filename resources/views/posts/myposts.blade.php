@@ -1,50 +1,22 @@
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('My Post!!') }}
+            {{ __('My Posts') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-
-        <x-success-status class="mb-4" :status="session('message')" />
-
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="py-4 px-4 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <div class="container">
+                <div class="row">
                         @forelse ($posts as $post)
-                        <tr>
-                            <td><a href="{{ url('/post/'.$post->id) }}" >{{ $post->title }}</a></td>
-                            <td>{{ $post->price }}</td>
-                            <td>{{ $post->avg_rating }}</td>
-                            <td>
-                                <button><a href="{{ url('/edit-post/'.$post->id) }}" class="btn btn-primary">Edit</a></button>
-                            </td>
-                            <td>
-                                <form action = "{{ url('/delete-post/'.$post->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6">No Record Found.</td>
-                        </tr>
+                        <div class="col-md-3" style="padding-top: 20px;">
+                            <x-my-posts-card title="{{$post->title}}" imgurl="{{$post->img_src}}"  price="{{$post->price}}"  id="{{$post->id}}"/>
+                        </div>
+                        @empty    
+                            <h3>No Record Found.</h3>
                         @endforelse
-                    </tbody>
-                </table>
+                </div>
             </div>
-        </div>
-    </div>
 </x-app-layout>

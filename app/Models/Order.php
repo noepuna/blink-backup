@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = ["post_id", "seller_id", "buyer_id", "price"];
+
     /**
      * Get the post that was sold.
      */

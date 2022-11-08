@@ -61,6 +61,8 @@ Route::get('/', function () {
 
             Route::get('/edit-featured', 'getallposts')->name('getallposts');
             Route::put('/new-features', 'newfeatures');
+
+            Route::put('/makeorder/{post_id}', 'makeAnOrder');
             
         });
     });
