@@ -24,30 +24,7 @@
     
     <body class="antialiased">
         <div >
-        <nav class="navbar navbar-light bg-light ">
-                <h1 class="navbar-brand"><a href='/'>Blink ;)</a></h1>
-                <form form action="/search-posts" class="form-inline" method="GET">
-                    @csrf
-                    @method('GET')
-                    <input id="search" name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            
-            
-                @if (Route::has('login'))
-                    <div>
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Your Profile</a>
-                        @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Log in</a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Register</a>
-                            @endif
-                        @endauth
-                    </div>
-                @endif
-            </nav>
+        <x-search-nav></x-search-nav>
 
             <h1>Welcome to Blink ;)</h1>
             <a href="/posts"><h3>Shop Now!</h3></a>

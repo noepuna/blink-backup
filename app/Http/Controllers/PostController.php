@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Rating;
 use App\Models\Order;
+use App\Models\FavouritedItem;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostFormRequest;
@@ -93,7 +94,25 @@ class PostController extends Controller
     // get a specific post
     public function getpost($post_id){
         $post = Post::find($post_id);
-        return view('posts.viewpost', compact('post'));
+        
+        $favourited = false;
+        
+        if (Auth::user() !== null){
+            $favourites = Auth::user()->favourites;
+            $posts = array();
+
+            foreach ($favourites as $favourite){
+                array_push($posts, $favourite->post);
+            }
+
+            foreach ($posts as $p){
+                if ($p->id == $post_id){
+                    $favourited = true;
+                }
+            }
+        }
+
+        return view('posts.viewpost', compact('post', 'favourited'));
     }
 
     // make a sale
@@ -110,9 +129,54 @@ class PostController extends Controller
         return redirect('/');
     }
 
+    // add post to favourites
+    public function addFavourite($post_id){
+        $post = Post::find($post_id);
+        $user = Auth::user();
+        
+        $favourite = FavouritedItem::create([
+            'post_id' => $post_id,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->route('specificpost', ['postid' => $post_id]);
+    }
+
+    
+    // get favourited item to delete
+    public function getFavToDelete($post_id){
+        $post = Post::find($post_id);
+        $user = Auth::user();
+        
+        $favourite = Auth::user()->favourites()->where('post_id', $post_id)->get();
+        return $this->removeFavourite($favourite, $post_id);
+    }
+    
+    // remove post to favourites
+    public function removeFavourite($favourite, $post_id){
+        
+        $favourite->each->delete();
+
+        return redirect()->route('specificpost', ['postid' => $post_id]);
+    }
+
+    // return user's post to mypost view blade
+    public function getfavourites(){
+
+        $favourites = Auth::user()->favourites;
+        $posts = array();
+
+        foreach ($favourites as $favourite){
+            array_push($posts, $favourite->post);
+        }
+
+        return view('posts.myfavourites', compact('posts'));
+    }
+
     // return edit view blade. Recieve specific post from user button click, pass post to view blade
     public function edit($post_id)
     {
+
         $post = Post::find($post_id);
 
         if ($post->user_id !== Auth::user()->id){

@@ -59,10 +59,17 @@ Route::get('/', function () {
                 Route::put('/rate-post/{post_id}', 'rate2');
             });
 
+            // ADMIN FEATURED ITEMS
             Route::get('/edit-featured', 'getallposts')->name('getallposts');
             Route::put('/new-features', 'newfeatures');
 
+            // BUYING
             Route::put('/makeorder/{post_id}', 'makeAnOrder');
+            
+            // FAVOURITES
+            Route::put('/addtofavourites/{post_id}', 'addFavourite');
+            Route::get('/myfavourites', 'getfavourites');
+            Route::get('/removefavourites/{post_id}', 'getFavToDelete');
             
         });
     });

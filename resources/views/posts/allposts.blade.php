@@ -31,30 +31,7 @@
     
     <body class="antialiased">
         <div >
-            <nav class="navbar navbar-light bg-light ">
-                <h1 class="navbar-brand"><a href='/'>Blink ;)</a></h1>
-                <form form action="/search-posts" class="form-inline" method="GET">
-                    @csrf
-                    @method('GET')
-                    <input id="search" name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            
-            
-                @if (Route::has('login'))
-                    <div>
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Your Profile</a>
-                        @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Log in</a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline" style="color: gray">Register</a>
-                            @endif
-                        @endauth
-                    </div>
-                @endif
-            </nav>
+            <x-search-nav></x-search-nav>
 
             <div class="container">
                 <div class="row">
@@ -67,32 +44,7 @@
                         @endforelse
                 </div>
             </div>
-            
-            <!--
-            <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Image</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($posts as $post)
-                        <tr>
-                            <td><a href="{{ url('/post/'.$post->id) }}" >{{ $post->title }}</a></td>
-                            <td>{{ $post->price }}</td>
-                            <td>{{ $post->avg_rating }}</td>
-                            <td><img src="{{ $post->img_src }}" ></td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6">No Record Found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>  --> 
+             
                 <div class="d-flex justify-content-center">
                     {!! $posts->links() !!}
                 </div>             
