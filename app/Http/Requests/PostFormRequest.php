@@ -38,6 +38,9 @@ class PostFormRequest extends FormRequest
             'img_src' => [
                 'required'
             ],
+            'medium' => [
+                
+            ]
         ];
     }
 }

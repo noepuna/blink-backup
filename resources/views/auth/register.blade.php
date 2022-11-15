@@ -19,6 +19,19 @@
                 <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
             </div>
 
+            <!-- Region -->
+            <div>
+                        <x-input-label for="region" :value="__('Region:')" />
+
+                        <select id="region" class="form-select" aria-label="Default select example" name="region">
+                            <!-- <option selected>Chose a medium</option> -->
+                            <option value="ON">ON</option>
+                            <option value="BC">BC</option>
+                            <option value="SS">SS</option>
+                            <option value="AL">AL</option>
+                        </select>
+                    </div>
+
             <!-- Email Address -->
             <div class="mt-4">
                 <x-input-label for="email" :value="__('Email')" />

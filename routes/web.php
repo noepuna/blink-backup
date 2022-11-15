@@ -13,17 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-
 
 
 
     Route::controller(App\Http\Controllers\PostController::class)->group(function () {
         //all posts (this is available without the need to login)
+        Route::get('/', 'home');
+
         Route::get('/posts', 'allposts');
 
         Route::get('/search-posts', 'dosearch'); 

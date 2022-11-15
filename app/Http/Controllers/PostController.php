@@ -17,6 +17,12 @@ class PostController extends Controller
     //
 
     // return create view
+    public function home(){
+        $posts = Post::where('featured', 1)->get();
+        return view('welcome', compact('posts'));
+    }
+    
+    // return create view
     public function create(){
         return view('posts.create');
     }
@@ -28,6 +34,7 @@ class PostController extends Controller
 
         $post = Post::create([
             'title'=>$data['title'],
+            'medium'=>$data['medium'],
             'description'=>$data['description'],
             'price'=>$data['price'],
             'img_src'=>$data['img_src'],
@@ -172,6 +179,14 @@ class PostController extends Controller
 
         return view('posts.myfavourites', compact('posts'));
     }
+
+    // public function UserAndPostReports(){
+    //     $users = User::all();
+    //     $post::all();
+
+    //     return the admin reports screen (will have all the reports on one page for now)
+    // }
+
 
     // return edit view blade. Recieve specific post from user button click, pass post to view blade
     public function edit($post_id)

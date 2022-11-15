@@ -22,6 +22,18 @@
 
                         <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')"  autofocus />
                     </div>
+                    <!-- Medium -->
+                    <div>
+                        <x-input-label for="medium" :value="__('Medium:')" />
+
+                        <select id="medium" class="form-select" aria-label="Default select example" name="medium">
+                            <!-- <option selected>Chose a medium</option> -->
+                            <option value="painting">Painting</option>
+                            <option value="drawing">Drawing</option>
+                            <option value="craft">Craft</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
                     <!-- Description -->
                     <div>
                         <x-input-label for="description" :value="__('Description:')" />
