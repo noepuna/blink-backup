@@ -53,6 +53,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the posts for the user.
+     */
+    public function shoppingCart()
+    {
+        return $this->hasOne(ShoppingCart::class);
+    }
+
+    /**
      * Get the ratings the user.
      */
     public function ratings()

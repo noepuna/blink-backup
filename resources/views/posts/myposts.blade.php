@@ -12,7 +12,7 @@
                 <div class="row">
                         @forelse ($posts as $post)
                         <div class="col-md-3" style="padding-top: 20px;">
-                            <x-my-posts-card title="{{$post->title}}" imgurl="{{$post->img_src}}"  price="{{$post->price}}"  id="{{$post->id}}"/>
+                            <x-my-posts-card id="{{$post->id}}" title="{{$post->title}}" imgurl="{{$post->img_src}}"  price="{{$post->price}}"  id="{{$post->id}}"/>
                         </div>
                         @empty    
                             <h3>No Record Found.</h3>

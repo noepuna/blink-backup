@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Rating;
 use App\Models\Order;
 use App\Models\FavouritedItem;
+use App\Models\ShoppingCart;
+use App\Models\ShoppingCartItem;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostFormRequest;
@@ -18,7 +20,7 @@ class PostController extends Controller
 
     // return create view
     public function home(){
-        $posts = Post::where('featured', 1)->get();
+        $posts = Post::where('featured', 1)->where('purchased', 0)->get();
         return view('welcome', compact('posts'));
     }
     
@@ -41,7 +43,8 @@ class PostController extends Controller
             'user_id'=>Auth::user()->id,
             'amount_rated' => 0,
             'avg_rating'=>0,
-            'featured'=>0
+            'featured'=>0,
+            'purchased'=>0
         ]);
         return redirect('/create-post')->with('message', 'Post created Successfully');
     }
@@ -58,7 +61,7 @@ class PostController extends Controller
     
     // return all posts to allposts view 
     public function allposts(){
-        $posts = Post::paginate(8);
+        $posts = Post::where('purchased', 0)->paginate(8);
 
         
         return view('posts.allposts', compact('posts'));
@@ -70,7 +73,7 @@ class PostController extends Controller
             return redirect('/');
         }else {
         
-            $posts = Post::all();            
+            $posts = Post::where('purchased', 0);            
             return view('posts.editfeatured', compact('posts'));
         }
     }
@@ -94,7 +97,7 @@ class PostController extends Controller
 
     // return user's post to mypost view blade
     public function myposts(){
-        $posts = Post::where('user_id', Auth::user()->id)->get();
+        $posts = Post::where('purchased', 0)->where('user_id', Auth::user()->id)->get();
         return view('posts.myposts', compact('posts'));
     }
 
@@ -103,10 +106,14 @@ class PostController extends Controller
         $post = Post::find($post_id);
         
         $favourited = false;
+        $user = User::where('id', $post->user_id)->first();
+        
         
         if (Auth::user() !== null){
+            
             $favourites = Auth::user()->favourites;
             $posts = array();
+            
 
             foreach ($favourites as $favourite){
                 array_push($posts, $favourite->post);
@@ -119,21 +126,42 @@ class PostController extends Controller
             }
         }
 
-        return view('posts.viewpost', compact('post', 'favourited'));
+        return view('posts.viewpost', compact('post', 'favourited', 'user'));
     }
 
     // make a sale
-    public function makeAnOrder($post_id){
-        $post = Post::find($post_id);
-        $seller = Post::find($post_id)->user;
-        
-        $order = Order::create([
-            'post_id' => $post_id,
-            'seller_id' => $seller->id,
-            'buyer_id' => Auth::user()->id,
-            'price' => $post->price
-        ]);
-        return redirect('/');
+    public function makeAnOrder($user_id){
+        // get shopping cart
+        $cart = ShoppingCart::where('user_id', $user_id)->first();
+        // get cart items that belong to cart
+        $items = ShoppingCartItem::where('cart_id', $cart->id)->get();
+        $posts = array();
+        foreach($items as $item){
+            $post = Post::where('id', $item->post_id)->first();
+            
+            array_push($posts, $post);
+        }
+
+        foreach($posts as $post){
+            //$post = Post::find($post_id);
+            $seller = Post::find($post->id)->user;
+            
+            $post->update(['purchased' => 1]);
+
+            // make the order
+            $order = Order::create([
+                'post_id' => $post->id,
+                'seller_id' => $seller->id,
+                'buyer_id' => Auth::user()->id,
+                'price' => $post->price
+            ]);
+
+            // delete shopping cart items
+            $item = ShoppingCartItem::where('post_id', $post->id)->first();
+            $item->delete();
+            
+        }
+        return redirect('/cart')->with('message', 'Items Purchased');
     }
 
     // add post to favourites
@@ -178,6 +206,39 @@ class PostController extends Controller
         }
 
         return view('posts.myfavourites', compact('posts'));
+    }
+
+    public function addToCart($post_id){
+        $cart = ShoppingCart::where('user_id', Auth::user()->id)->first();
+        if (ShoppingCartItem::where('cart_id', $cart->id)->where('post_id', $post_id)->first() !== null){
+            return redirect()->route('specificpost', ['postid' => $post_id])->with('failmessage', 'Item already in your cart');
+        }else {
+            $cart_item = ShoppingCartItem::create([
+                'post_id' => $post_id,
+                'cart_id' => $cart->id
+            ]);
+
+            return redirect()->route('specificpost', ['postid' => $post_id])->with('message', 'Added to Cart Successfully');
+        }
+    }
+
+    public function getCart(){
+        $user = Auth::user();
+        //$cart = $user->shoppingCart();
+        $cart = ShoppingCart::where('user_id', $user->id)->first();
+        $items = ShoppingCartItem::where('cart_id', $cart->id)->get();
+
+        $posts = [];
+
+        if($items !== null ){
+            foreach($items as $item){
+                $post = Post::where('id', $item->post_id)->first();
+                
+                array_push($posts, $post);
+            }
+        }
+
+        return view('posts.cart', compact('posts'));
     }
 
     // public function UserAndPostReports(){
@@ -225,6 +286,8 @@ class PostController extends Controller
         }
         else {
             Rating::where('post_id', $post_id)->delete();
+            ShoppingCartItem::where('post_id', $post_id)->delete();
+            FavouritedItem::where('post_id', $post_id)->delete();
             $post = Post::find($post_id)->delete();
             return redirect('/my-posts')->with('message', 'Post Deleted Successfully');
         }

@@ -60,12 +60,15 @@ use Illuminate\Support\Facades\Route;
             Route::put('/new-features', 'newfeatures');
 
             // BUYING
-            Route::put('/makeorder/{post_id}', 'makeAnOrder');
+            Route::put('/makeorder/{posts}', 'makeAnOrder')->name('makeorderroute');
             
             // FAVOURITES
             Route::put('/addtofavourites/{post_id}', 'addFavourite');
             Route::get('/myfavourites', 'getfavourites');
             Route::get('/removefavourites/{post_id}', 'getFavToDelete');
+
+            Route::put('/addtocart/{post_id}', 'addToCart');
+            Route::get('/cart', 'getCart');
             
         });
     });

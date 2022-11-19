@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-light ">
+<nav class="navbar navbar-light bg-light " style="padding-bottom: 10px; position: sticky;">
                 <h1 class="navbar-brand"><a href='/'>Blink ;)</a></h1>
                 <form form action="/search-posts" class="form-inline" method="GET">
                     @csrf

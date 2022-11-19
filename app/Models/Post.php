@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'medium', 'price', 'img_src', 'user_id', 'avg_rating', 'amount_rated', 'featured'];
+    protected $fillable = ['title', 'description', 'medium', 'price', 'img_src', 'user_id', 'avg_rating', 'amount_rated', 'featured', 'purchased'];
 
     /**
      * Get the user that owns the post.
@@ -30,5 +30,13 @@ class Post extends Model
     public function favourites()
     {
         return $this->hasMany(FavouritedItem::class);
+    }
+
+    /**
+     * Get the posts for the user.
+     */
+    public function shoppingCarts()
+    {
+        return $this->hasMany(shoppingCarts::class);
     }
 }

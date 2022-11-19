@@ -31,10 +31,12 @@
     </head>
     
     <body class="antialiased">
-        <div >
+        <div style="text-align: center;">
         <x-search-nav></x-search-nav>
 
-            <h1>Welcome to Blink ;)</h1>
+            <h1>Welcome to Blink!</h1>
+            <h5>Where you view 1 of 1 items, but they could be gone in the blink of an eye!</h5>
+
             <a href="/posts"><h3>Shop Now!</h3></a>
             <div id="homeCarousel" class="carousel slide" data-ride="carousel" ride=true >
               <div class="carousel-inner" role="listbox" style="width:900px; height:600px !important;">
