@@ -59,6 +59,9 @@ use Illuminate\Support\Facades\Route;
             Route::get('/edit-featured', 'getallposts')->name('getallposts');
             Route::put('/new-features', 'newfeatures');
 
+            // ADMIN REPORTS
+            Route::get('/admin-reports', 'getReportRecords');
+
             // BUYING
             Route::put('/makeorder/{posts}', 'makeAnOrder')->name('makeorderroute');
             

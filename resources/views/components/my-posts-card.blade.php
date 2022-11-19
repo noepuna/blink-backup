@@ -5,6 +5,10 @@
   </div>
   <div class="card-body">
     <a href="/edit-post/{{$id}}" class="btn btn-primary">Edit</a>
-    <a href="/delete-post/{{$id}}" class="btn btn-primary">Delete</a>
+    <form action="/delete-post/{{$id}}" method="POST">
+        @csrf
+        @method('DELETE')
+      <button class="btn btn-primary">Delete</button>
+</form>
   </div>
 </div>

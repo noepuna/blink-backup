@@ -128,7 +128,7 @@
       <p>{{$post->description}}</p>
     </div>
 
-    <h3>{{$post->avg_rating}}</h3>
+    <h3>Rating: {{$post->avg_rating}}</h3>
 
     <form action="{{ url('rate-post/'.$post->id) }}" method="POST">
         @csrf

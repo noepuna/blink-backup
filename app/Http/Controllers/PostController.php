@@ -73,7 +73,7 @@ class PostController extends Controller
             return redirect('/');
         }else {
         
-            $posts = Post::where('purchased', 0);            
+            $posts = Post::where('purchased', 0)->get();            
             return view('posts.editfeatured', compact('posts'));
         }
     }
@@ -241,12 +241,50 @@ class PostController extends Controller
         return view('posts.cart', compact('posts'));
     }
 
-    // public function UserAndPostReports(){
-    //     $users = User::all();
-    //     $post::all();
+    public function getReportRecords(){
+        $users = User::all();
+        $orders = Order::all();
+        
+        // who's made the most number of sales
+        $mostSalesID = 0;
+        $mostSales = 0;
+        $mostSaleUser = null;
+        // for each user
+        foreach ($users as $user){
+            // check if the amount of orders sold by this user is greater than the mostSales
+            if (($orders->where('seller_id', $user->id)->count()) > $mostSales){
+                // id of user with the most sales
+                $mostSalesID = $user->id;
+                $mostSales = $orders->where('seller_id', $user->id)->count();
+                $mostSaleUser = User::where('id', $mostSalesID)->first();
+            }
+        }
+        
 
-    //     return the admin reports screen (will have all the reports on one page for now)
-    // }
+        // user who's made the most profit
+        $mostProfitID = 0;
+        $mostProfit = 0;
+        $mostProfitUser = null;
+        // for each user
+        foreach ($users as $user){
+            $userProfit = 0;
+            // get this user's sales
+            $userSales = $orders->where('seller_id', $user->id);
+            if ($userSales){
+                foreach ($userSales as $sale){
+                    $userProfit += $sale->price; 
+                }
+                if ($userProfit > $mostProfit){
+                    $mostProfit = $userProfit;
+                    $mostProfitID = $user->id;
+                    $mostProfitUser = User::where('id', $mostProfitID)->first();
+                }
+            }
+        }
+
+        return view('reports.adminreports', compact('mostSaleUser', 'mostSalesID', 'mostSales', 'mostProfitUser', 'mostProfitID', 'mostProfit'));
+
+    }
 
 
     // return edit view blade. Recieve specific post from user button click, pass post to view blade

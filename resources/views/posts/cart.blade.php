@@ -43,17 +43,17 @@
                     
                 @empty    
                     <h3>There are no items in your cart.</h3>
-                    <?php $user_id = Auth::user()->id ?>
+                    
+                @endforelse
+
+                @if($posts !== null)
+                <?php $user_id = Auth::user()->id ?>
                     <!-- <button class="btn btn-primary" ><a href="{{ route('makeorderroute', $user_id) }}">Buy</a></button> -->
                     <form action="{{ route('makeorderroute', $user_id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <button class="btn btn-primary">Buy</button>
                     </form>
-                @endforelse
-
-                @if($posts !== null)
-                    
                 @endif 
                                     
             </div>

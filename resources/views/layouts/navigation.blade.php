@@ -33,12 +33,13 @@
                         {{ __('Sale History') }}
                     </x-nav-link>
 
+                    <!-- IF USER IS ADMIN -->
                     @if ( Auth::user()->role == 1)
                         <x-nav-link :href="url('edit-featured')" :active="request()->routeIs('edit-featured')">
                             {{ __(' Edit Featured') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="url('create-post')" :active="request()->routeIs('create-post')">
+                        <x-nav-link :href="url('admin-reports')" :active="request()->routeIs('admin-reports')">
                             {{ __(' Reports') }}
                         </x-nav-link>
                     @endif
